@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import org.android.go.sopt.ProfileActivity
@@ -11,6 +12,7 @@ import org.android.go.sopt.R
 import org.android.go.sopt.data.User
 import org.android.go.sopt.databinding.ActivityLoginBinding
 import org.android.go.sopt.util.IntentKey
+import org.android.go.sopt.util.hideKeyboard
 import org.android.go.sopt.util.snackBar
 
 class LoginActivity : AppCompatActivity() {
@@ -80,5 +82,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun isCorrect(): Boolean {
         return binding.etId.text.toString() == user?.id && binding.etPw.text.toString() == user?.pw
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        this.currentFocus?.let { hideKeyboard(it) }
+        return super.dispatchTouchEvent(ev)
     }
 }
