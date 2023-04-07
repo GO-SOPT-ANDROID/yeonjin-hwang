@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import org.android.go.sopt.presentation.home.ProfileActivity
@@ -13,6 +14,7 @@ import org.android.go.sopt.data.User
 import org.android.go.sopt.databinding.ActivityLoginBinding
 import org.android.go.sopt.util.IntentKey
 import org.android.go.sopt.util.hideKeyboard
+import org.android.go.sopt.util.showToast
 import org.android.go.sopt.util.snackBar
 
 class LoginActivity : AppCompatActivity() {
@@ -27,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         login()
+        initLoginEvent()
         goSignUpPage()
     }
 
@@ -46,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun login() {
+    private fun initLoginEvent() {
         binding.btnLogin.setOnClickListener {
             if (isCheckData()) {
                 setLoginData()
@@ -70,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setLoginData() {
         if (isCorrect()) {
-            snackBar(getString(R.string.sign_in_done), binding)
+            showToast(getString(R.string.sign_in_done))
             val loginIntent = Intent(this, ProfileActivity::class.java)
             loginIntent.putExtra(IntentKey.USER, user)
             startActivity(loginIntent)
