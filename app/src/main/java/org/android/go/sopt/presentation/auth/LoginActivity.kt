@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import org.android.go.sopt.ProfileActivity
+import org.android.go.sopt.presentation.home.ProfileActivity
 import org.android.go.sopt.R
 import org.android.go.sopt.data.User
 import org.android.go.sopt.databinding.ActivityLoginBinding
