@@ -58,6 +58,12 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         this.currentFocus?.let { hideKeyboard(it) }
+        with(binding){
+            etId.clearFocus()
+            etPw.clearFocus()
+            etName.clearFocus()
+            etFeature.clearFocus()
+        }
         return super.dispatchTouchEvent(ev)
     }
 }
