@@ -15,7 +15,7 @@ import org.android.go.sopt.databinding.ActivityLoginBinding
 import org.android.go.sopt.util.IntentKey
 import org.android.go.sopt.util.hideKeyboard
 import org.android.go.sopt.util.showToast
-import org.android.go.sopt.util.snackBar
+import org.android.go.sopt.util.showSnackBar
 
 class LoginActivity : AppCompatActivity() {
 
@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
-            snackBar(getString(R.string.sign_up_done), binding)
+            showSnackBar(getString(R.string.sign_up_done), binding)
             user = it.data?.getParcelableExtra(IntentKey.USER, User::class.java)
             bindData()
         }
@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
             if (isCheckData()) {
                 setLoginData()
             } else {
-                snackBar(getString(R.string.sign_in_fail), binding)
+                showSnackBar(getString(R.string.sign_in_fail), binding)
             }
         }
     }
@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(loginIntent)
             finish()
         } else {
-            snackBar(getString(R.string.login_incorrect), binding)
+            showSnackBar(getString(R.string.login_incorrect), binding)
         }
     }
 

@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 
-fun snackBar(text: String, binding: ViewBinding) {
+fun showSnackBar(text: String, binding: ViewBinding) {
     Snackbar.make(
         binding.root,
         text,

@@ -9,7 +9,7 @@ import org.android.go.sopt.data.User
 import org.android.go.sopt.databinding.ActivitySignUpBinding
 import org.android.go.sopt.util.IntentKey
 import org.android.go.sopt.util.hideKeyboard
-import org.android.go.sopt.util.snackBar
+import org.android.go.sopt.util.showSnackBar
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
@@ -27,7 +27,7 @@ class SignUpActivity : AppCompatActivity() {
             if (isCheckData() && isCheckLength()) {
                 setUser()
             } else {
-                snackBar(getString(R.string.sign_up_incorrect), binding)
+                showSnackBar(getString(R.string.sign_up_incorrect), binding)
             }
         }
     }
