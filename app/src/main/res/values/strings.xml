@@ -3,8 +3,10 @@
     <string name="welcome_to_go_android">Welcome to GO Android!</string>
     <string name="id">ID</string>
     <string name="plz_id">아이디를 입력하세요.</string>
+    <string name="plz_sign_up_id">6~10글자의 아이디를 입력하세요.</string>
     <string name="pw">PW</string>
     <string name="plz_pw">비밀번호를 입력하세요.</string>
+    <string name="plz_sign_up_pw">8~12글자의 비밀번호를 입력하세요.</string>
     <string name="login">LOGIN</string>
     <string name="sign_up">SIGN UP</string>
     <string name="sign_up_complete">회원가입 완료</string>
