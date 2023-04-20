@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.android.go.sopt.MyAdapter
+import org.android.go.sopt.RepoTitleAdapter
 import org.android.go.sopt.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -25,13 +27,22 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvMain.adapter = MyAdapter(requireContext())
-        binding.rvMain.layoutManager = LinearLayoutManager(context)
+        initAdapter()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initAdapter() {
+        val repoTitleAdapter = RepoTitleAdapter()
+        val myAdapter = MyAdapter(requireContext())
+
+        with(binding.rvMain) {
+            adapter = ConcatAdapter(repoTitleAdapter, myAdapter)
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 
 }
