@@ -48,21 +48,6 @@ class SignUpActivity : AppCompatActivity() {
         return binding.etId.text.length in 6..10 && binding.etPw.text.length in 8..12
     }
 
-    private fun setUser() {
-        val user = User(
-            id = binding.etId.text.toString(),
-            pw = binding.etPw.text.toString(),
-            name = binding.etName.text.toString(),
-            feature = binding.etFeature.text.toString()
-        )
-        val signUpIntent = Intent(this@SignUpActivity, LoginActivity::class.java)
-        signUpIntent.putExtra(IntentKey.USER, user)
-        setResult(RESULT_OK, signUpIntent)
-        if (!isFinishing) {
-            finish()
-        }
-    }
-
     private fun completeSignUp() {
         signUpService.signUp(
             with(binding) {

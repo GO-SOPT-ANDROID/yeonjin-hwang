@@ -77,18 +77,6 @@ class LoginActivity : AppCompatActivity() {
         return binding.etId.text.isNotEmpty() && binding.etPw.text.isNotEmpty()
     }
 
-    private fun setLoginData() {
-        if (isCorrect()) {
-            showToast(getString(R.string.sign_in_done))
-            val loginIntent = Intent(this, ProfileActivity::class.java)
-            loginIntent.putExtra(IntentKey.USER, user)
-            startActivity(loginIntent)
-            finish()
-        } else {
-            showSnackBar(getString(R.string.login_incorrect), binding)
-        }
-    }
-
     private fun completeLogin() {
         loginService.login(
             with(binding) {
@@ -120,8 +108,6 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun isCorrect(): Boolean {
-        return binding.etId.text.toString() == user?.id && binding.etPw.text.toString() == user?.pw
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
