@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import org.android.go.sopt.presentation.home.adapter.GalleryAdapter
+import org.android.go.sopt.R
 import org.android.go.sopt.databinding.FragmentGalleryBinding
 
 class GalleryFragment : Fragment() {
@@ -22,12 +24,13 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.pagerHome.adapter = GalleryAdapter().apply {
+            setItemList(listOf(R.drawable.ic_launcher_background, R.drawable.ic_baseline_image_24))
+        }
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
-
-
 }
