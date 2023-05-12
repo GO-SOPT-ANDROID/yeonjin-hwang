@@ -10,10 +10,7 @@ import org.android.go.sopt.data.api.ServicePool
 import org.android.go.sopt.data.remote.model.RequestSignUpDto
 import org.android.go.sopt.data.remote.model.ResponseSignUpDto
 import org.android.go.sopt.databinding.ActivitySignUpBinding
-import org.android.go.sopt.util.IntentKey
-import org.android.go.sopt.util.hideKeyboard
-import org.android.go.sopt.util.showSnackBar
-import org.android.go.sopt.util.showToast
+import org.android.go.sopt.util.*
 import retrofit2.Call
 import retrofit2.Response
 
@@ -58,26 +55,22 @@ class SignUpActivity : AppCompatActivity() {
                     etFeature.text.toString()
                 )
             }
-        ).enqueue(object : retrofit2.Callback<ResponseSignUpDto> {
-            override fun onResponse(
-                call: Call<ResponseSignUpDto>,
-                response: Response<ResponseSignUpDto>
-            ) {
-                if (response.isSuccessful) {
-                    startActivity(
-                        Intent(this@SignUpActivity, LoginActivity::class.java)
-                    )
-                    response.body()?.message?.let { showToast(it) } ?: "회원가입 성공"
-                    if (!isFinishing) finish()
-                } else {
-                    response.body()?.message?.let { showToast(it) } ?: "서버통신 실패"
+        ).enqueueUtil(
+            onSuccess = {
+                startActivity(
+                    Intent(this@SignUpActivity, LoginActivity::class.java)
+                )
+                showToast(R.string.sign_up_success.toString())
+                if (!isFinishing) finish()
+            },
+            onError = {
+                when(it) {
+                    304 -> showToast("Not modified")
+                    401 -> showToast("Requires authentication")
+                    403 -> showToast("Forbidden")
                 }
             }
-
-            override fun onFailure(call: Call<ResponseSignUpDto>, t: Throwable) {
-                t.message?.let { showToast(it) } ?: "서버통신 살패"
-            }
-        })
+        )
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

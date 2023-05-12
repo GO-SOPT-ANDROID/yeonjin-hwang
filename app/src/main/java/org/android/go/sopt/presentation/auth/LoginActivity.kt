@@ -85,29 +85,22 @@ class LoginActivity : AppCompatActivity() {
                     etPw.text.toString()
                 )
             }
-        ).enqueue(object : retrofit2.Callback<ResponseLoginDto> {
-            override fun onResponse(
-                call: Call<ResponseLoginDto>,
-                response: Response<ResponseLoginDto>
-            ) {
-                if (response.isSuccessful) {
-                    startActivity(
-                        Intent(this@LoginActivity, MainActivity::class.java)
-                    )
-                    response.body()?.message?.let { showToast(it) } ?: R.string.sign_in_done
-                    if (!isFinishing) finish()
-                }
-                else {
-                    response.body()?.message?.let { showToast(it) } ?: R.string.login_incorrect
+        ).enqueueUtil(
+            onSuccess = {
+                startActivity(
+                    Intent(this@LoginActivity, MainActivity::class.java)
+                )
+                showToast(R.string.sign_in_done.toString())
+                if (!isFinishing) finish()
+            },
+            onError = {
+                when(it) {
+                    304 -> showToast("Not modified")
+                    401 -> showToast("Requires authentication")
+                    403 -> showToast("Forbidden")
                 }
             }
-
-            override fun onFailure(call: Call<ResponseLoginDto>, t: Throwable) {
-                t.message?.let { showToast(it) } ?: "서버통신 실패"
-            }
-        })
-    }
-
+        )
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
