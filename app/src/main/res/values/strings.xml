@@ -22,4 +22,6 @@
     <string name="sign_in_fail">로그인에 실패했습니다.</string>
     <string name="login_incorrect">아이디 또는 비밀번호가 틀렸습니다.</string>
     <string name="rv_title">연청의 레포지토리</string>
+    <string name="sign_up_success">회원가입 성공</string>
+    <string name="server_connection_fail">서버 통신 실패</string>
 </resources>
