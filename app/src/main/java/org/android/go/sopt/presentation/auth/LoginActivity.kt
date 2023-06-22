@@ -8,19 +8,26 @@ import android.view.MotionEvent
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContentProviderCompat.requireContext
+import org.android.go.sopt.MainActivity
 import org.android.go.sopt.presentation.home.ProfileActivity
 import org.android.go.sopt.R
 import org.android.go.sopt.data.User
+import org.android.go.sopt.data.api.ServicePool
+import org.android.go.sopt.data.remote.model.RequestLoginDto
+import org.android.go.sopt.data.remote.model.ResponseLoginDto
+import org.android.go.sopt.data.remote.service.LoginService
 import org.android.go.sopt.databinding.ActivityLoginBinding
-import org.android.go.sopt.util.IntentKey
-import org.android.go.sopt.util.hideKeyboard
-import org.android.go.sopt.util.showToast
-import org.android.go.sopt.util.showSnackBar
+import org.android.go.sopt.util.*
+import retrofit2.Call
+import retrofit2.Response
+import javax.security.auth.callback.Callback
 
 class LoginActivity : AppCompatActivity() {
 
     private var user: User? = null
     private lateinit var binding: ActivityLoginBinding
+    private var loginService = ServicePool.loginService
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
     private fun initLoginEvent() {
         binding.btnLogin.setOnClickListener {
             if (isCheckData()) {
-                setLoginData()
+                completeLogin()
             } else {
                 showSnackBar(getString(R.string.sign_in_fail), binding)
             }
@@ -70,20 +77,30 @@ class LoginActivity : AppCompatActivity() {
         return binding.etId.text.isNotEmpty() && binding.etPw.text.isNotEmpty()
     }
 
-    private fun setLoginData() {
-        if (isCorrect()) {
-            showToast(getString(R.string.sign_in_done))
-            val loginIntent = Intent(this, ProfileActivity::class.java)
-            loginIntent.putExtra(IntentKey.USER, user)
-            startActivity(loginIntent)
-            finish()
-        } else {
-            showSnackBar(getString(R.string.login_incorrect), binding)
-        }
-    }
-
-    private fun isCorrect(): Boolean {
-        return binding.etId.text.toString() == user?.id && binding.etPw.text.toString() == user?.pw
+    private fun completeLogin() {
+        loginService.login(
+            with(binding) {
+                RequestLoginDto(
+                    etId.text.toString(),
+                    etPw.text.toString()
+                )
+            }
+        ).enqueueUtil(
+            onSuccess = {
+                startActivity(
+                    Intent(this@LoginActivity, MainActivity::class.java)
+                )
+                showToast(R.string.sign_in_done.toString())
+                if (!isFinishing) finish()
+            },
+            onError = {
+                when(it) {
+                    304 -> showToast("Not modified")
+                    401 -> showToast("Requires authentication")
+                    403 -> showToast("Forbidden")
+                }
+            }
+        )
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

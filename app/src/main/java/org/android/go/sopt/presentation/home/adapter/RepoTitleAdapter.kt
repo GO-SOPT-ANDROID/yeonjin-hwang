@@ -1,4 +1,4 @@
-package org.android.go.sopt
+package org.android.go.sopt.presentation.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

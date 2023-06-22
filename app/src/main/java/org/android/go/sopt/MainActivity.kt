@@ -25,13 +25,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.bnvMain.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.menu_home -> { HomeFragment()
+                R.id.menu_home -> { changeFragment(HomeFragment())
                     return@setOnItemSelectedListener true
                 }
-                R.id.menu_search -> { SearchFragment()
+                R.id.menu_search -> { changeFragment(SearchFragment())
                     return@setOnItemSelectedListener true
                 }
-                R.id.menu_gallery -> { GalleryFragment()
+                R.id.menu_gallery -> { changeFragment(GalleryFragment())
                     return@setOnItemSelectedListener true
                 }
                 else -> { false }
