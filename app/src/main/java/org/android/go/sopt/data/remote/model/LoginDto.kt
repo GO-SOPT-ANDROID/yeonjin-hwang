@@ -18,7 +18,7 @@ data class ResponseLoginDto(
     @SerialName("message")
     val message: String,
     @SerialName("data")
-    val data: ResponseLoginDto.LoginData
+    val data: LoginData
 ) {
     @Serializable
     data class LoginData(

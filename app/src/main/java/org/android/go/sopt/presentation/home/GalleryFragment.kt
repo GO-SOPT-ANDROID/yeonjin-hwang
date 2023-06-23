@@ -1,17 +1,27 @@
 package org.android.go.sopt.presentation.home
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import org.android.go.sopt.presentation.home.adapter.GalleryAdapter
-import org.android.go.sopt.R
+import androidx.fragment.app.viewModels
+import coil.load
 import org.android.go.sopt.databinding.FragmentGalleryBinding
+import org.android.go.sopt.presentation.home.viewmodel.GalleryViewModel
+import org.android.go.sopt.util.ContentUriRequestBody
 
 class GalleryFragment : Fragment() {
     private var _binding : FragmentGalleryBinding? = null
     private val binding : FragmentGalleryBinding get() = requireNotNull(_binding) { "FragmentGalleryBinding error - null" } //값을 사용하는 애
+    private val viewModel by viewModels<GalleryViewModel>()
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { imageUri: Uri? ->
+        binding.ivImage.load(imageUri)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,8 +34,15 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.pagerHome.adapter = GalleryAdapter().apply {
-            setItemList(listOf(R.drawable.ic_launcher_background, R.drawable.ic_baseline_image_24))
+        with(binding){
+            btnGallery.setOnClickListener {
+                launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            }
+            btnUpload.setOnClickListener {
+                val title = etTitle.text.toString()
+                val singer = etSinger.text.toString()
+                viewModel.uploadMusic("1", title, singer)
+            }
         }
     }
 
