@@ -3,9 +3,7 @@ package org.android.go.sopt.data.api
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
-import org.android.go.sopt.data.remote.service.FollowerService
-import org.android.go.sopt.data.remote.service.LoginService
-import org.android.go.sopt.data.remote.service.SignUpService
+import org.android.go.sopt.data.remote.service.*
 import org.android.go.sopt.util.Server.ServerURL
 import retrofit2.Retrofit
 import retrofit2.create
@@ -33,4 +31,6 @@ object ServicePool {
     val signUpService = ApiFactory.create<SignUpService>()
     val loginService = ApiFactory.create<LoginService>()
     val followerService = ApiFactory.create1<FollowerService>()
+    val imageService = ApiFactory.create<ImageService>()
+    val musicService = ApiFactory.create<MusicService>()
 }
